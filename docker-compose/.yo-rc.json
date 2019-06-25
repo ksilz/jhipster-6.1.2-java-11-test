@@ -1,0 +1,15 @@
+{
+  "generator-jhipster": {
+    "deploymentType": "docker-compose",
+    "gatewayType": "zuul",
+    "monitoring": "no",
+    "directoryPath": "../",
+    "appsFolders": [],
+    "clusteredDbApps": [],
+    "consoleOptions": [],
+    "serviceDiscoveryType": "eureka",
+    "dockerRepositoryName": "joedata",
+    "dockerPushCommand": "docker push",
+    "jwtSecretKey": "ZmRmMzkyOTdmOTZiMzIxNGRlY2E2NWQwNWJlNjEyNjcwOTg3YWI4MDJkOGYwZThlNTRiZWMxMWMwMmNiYzg2NGM5MDRmOGUzZGE4Njg5MTZiNmYwNTk4ZTBjZDQ3ZWNhOWRlYg=="
+  }
+}
