@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -54,8 +54,10 @@ export class ShipmentUpdateComponent implements OnInit {
       .subscribe(
         (res: IShoppingOrder[]) => {
           if (!!this.editForm.get('orderId').value) {
+            console.log('ShipmentUpdateComponent.ngOnInit.shoppingOrderService.query: NO orderId');
             this.orders = res;
           } else {
+            console.log('ShipmentUpdateComponent.ngOnInit.shoppingOrderService.query: orderId: ' + this.editForm.get('orderId').value);
             this.shoppingOrderService
               .find(this.editForm.get('orderId').value)
               .pipe(
@@ -102,15 +104,12 @@ export class ShipmentUpdateComponent implements OnInit {
     }
   }
 
-  private createFromForm(): IShipment {
-    return {
-      ...new Shipment(),
-      id: this.editForm.get(['id']).value,
-      shippedAt:
-        this.editForm.get(['shippedAt']).value != null ? moment(this.editForm.get(['shippedAt']).value, DATE_TIME_FORMAT) : undefined,
-      orderId: this.editForm.get(['orderId']).value,
-      shippedById: this.editForm.get(['shippedById']).value
-    };
+  trackShoppingOrderById(index: number, item: IShoppingOrder) {
+    return item.id;
+  }
+
+  trackUserById(index: number, item: IUser) {
+    return item.id;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IShipment>>) {
@@ -125,15 +124,19 @@ export class ShipmentUpdateComponent implements OnInit {
   protected onSaveError() {
     this.isSaving = false;
   }
+
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
   }
 
-  trackShoppingOrderById(index: number, item: IShoppingOrder) {
-    return item.id;
-  }
-
-  trackUserById(index: number, item: IUser) {
-    return item.id;
+  private createFromForm(): IShipment {
+    return {
+      ...new Shipment(),
+      id: this.editForm.get(['id']).value,
+      shippedAt:
+        this.editForm.get(['shippedAt']).value != null ? moment(this.editForm.get(['shippedAt']).value, DATE_TIME_FORMAT) : undefined,
+      orderId: this.editForm.get(['orderId']).value,
+      shippedById: this.editForm.get(['shippedById']).value
+    };
   }
 }
